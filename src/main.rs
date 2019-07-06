@@ -11,6 +11,11 @@ pub mod distribution {
 
     pub type Distribution<T> = Vec<Event<T>>;
 
+    pub fn always<T>(val: T) -> Distribution<T> {
+        let chance = Rational::new(1, 1);
+        vec![Event { val, chance }]
+    }
+
     pub fn map<T, U>(f: &Fn(&T) -> U, vals: &Distribution<T>) -> Distribution<U> {
         let mut result = Vec::new();
         for v in vals {
