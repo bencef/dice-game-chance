@@ -1,9 +1,8 @@
-use num_rational::Ratio;
-
 pub mod distribution {
 
     use num_rational::Rational;
 
+    #[derive(Debug)]
     pub struct Event<T> {
         val: T,
         chance: Rational,
@@ -29,5 +28,6 @@ pub mod distribution {
 }
 
 fn main() {
-    println!("{}!", Ratio::new(1, 2));
+    use self::distribution as dist;
+    println!("{:?}", dist::always(42));
 }
