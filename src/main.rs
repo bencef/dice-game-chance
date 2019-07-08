@@ -1,3 +1,16 @@
+pub mod util {
+    #[derive(Debug)]
+    pub struct UsizeToIsizeErr();
+
+    pub fn to_isize(v: usize) -> Result<isize, UsizeToIsizeErr> {
+        if v > std::isize::MAX as usize {
+            Err(UsizeToIsizeErr())
+        } else {
+            Ok(v as isize)
+        }
+    }
+}
+
 pub mod distribution {
 
     use num_rational::Rational;
@@ -14,6 +27,20 @@ pub mod distribution {
     pub fn always<T>(val: T) -> Distribution<T> {
         let chance = Rational::new(1, 1);
         Distribution(vec![Event { val, chance }])
+    }
+
+    pub fn uniform<T>(vals: Vec<T>) -> Distribution<T> {
+        // use std::convert::TryFrom;
+        // let len = isize::try_from(vals.len()).unwrap();
+        use super::util;
+        let len = util::to_isize(vals.len()).expect("Given vector too long");
+        let mut result = Vec::new();
+        for v in vals {
+            let val = v;
+            let chance = Rational::new(1, len);
+            result.push(Event { val, chance });
+        }
+        Distribution(result)
     }
 
     impl<T> Distribution<T> {
