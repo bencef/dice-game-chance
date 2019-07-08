@@ -84,9 +84,6 @@ pub mod dice {
 }
 
 fn main() {
-    use self::distribution as dist;
-    let answer = dist::always(42);
-    let check = |x: &u32| 42 == *x;
-    println!("{:?}", answer.map(check));
-    println!("answer was: {:?}", answer);
+    use self::dice;
+    println!("Six sided die: {:?}", dice::die(6));
 }
