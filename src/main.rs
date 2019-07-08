@@ -3,31 +3,39 @@ pub mod distribution {
     use num_rational::Rational;
 
     #[derive(Debug)]
-    pub struct Event<T> {
+    struct Event<T> {
         val: T,
         chance: Rational,
     }
 
-    pub type Distribution<T> = Vec<Event<T>>;
+    #[derive(Debug)]
+    pub struct Distribution<T>(Vec<Event<T>>);
 
     pub fn always<T>(val: T) -> Distribution<T> {
         let chance = Rational::new(1, 1);
-        vec![Event { val, chance }]
+        Distribution(vec![Event { val, chance }])
     }
 
-    pub fn map<T, U>(f: &Fn(&T) -> U, vals: &Distribution<T>) -> Distribution<U> {
-        let mut result = Vec::new();
-        for v in vals {
-            result.push(Event {
-                val: f(&v.val),
-                chance: v.chance,
-            });
+    impl<T> Distribution<T> {
+        pub fn map<F, U>(&self, f: F) -> Distribution<U>
+        where
+            F: Fn(&T) -> U,
+        {
+            let mut result = Vec::new();
+            for v in self.0.iter() {
+                let val = f(&v.val);
+                let chance = v.chance.clone();
+                result.push(Event { val, chance });
+            }
+            Distribution(result)
         }
-        result
     }
 }
 
 fn main() {
     use self::distribution as dist;
-    println!("{:?}", dist::always(42));
+    let answer = dist::always(42);
+    let check = |x: &u32| 42 == *x;
+    println!("{:?}", answer.map(check));
+    println!("answer was: {:?}", answer);
 }
