@@ -29,6 +29,21 @@ pub mod distribution {
             }
             Distribution(result)
         }
+
+        pub fn apply<F, U>(&self, fs: Distribution<F>) -> Distribution<U>
+        where
+            F: Fn(&T) -> U,
+        {
+            let mut result = Vec::new();
+            for v in self.0.iter() {
+                for f in &fs.0 {
+                    let val = (f.val)(&v.val);
+                    let chance = f.chance * v.chance;
+                    result.push(Event { val, chance });
+                }
+            }
+            Distribution(result)
+        }
     }
 }
 
