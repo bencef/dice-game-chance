@@ -68,3 +68,24 @@ impl<T> Distribution<T> {
         self.0.push(event);
     }
 }
+
+use std::hash::Hash;
+
+impl<T> Distribution<T>
+where
+    T: Eq + PartialEq + Hash,
+{
+    pub fn normalized(self) -> Distribution<T> {
+        use std::collections::HashMap;
+        let mut map = HashMap::new();
+        for ev in self.0.into_iter() {
+            let entry = map.entry(ev.val).or_insert(Rational::new(0, 1));
+            *entry += ev.chance;
+        }
+        let mut result = new();
+        for (val, chance) in map.into_iter() {
+            result.push(Event { val, chance });
+        }
+        result
+    }
+}

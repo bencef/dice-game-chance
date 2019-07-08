@@ -11,7 +11,7 @@ pub fn d(amount: u8, sides: u8, plus: u8) -> dist::Distribution<u8> {
     for _ in 0..amount {
         result = summing(result, die(sides));
     }
-    result.map(|orig| orig + plus)
+    result.map(|orig| orig + plus).normalized()
 }
 
 fn summing(
