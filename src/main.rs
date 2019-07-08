@@ -74,6 +74,15 @@ pub mod distribution {
     }
 }
 
+pub mod dice {
+    use super::distribution as dist;
+
+    pub fn die(sides: u8) -> dist::Distribution<u8> {
+        use std::iter::FromIterator;
+        dist::uniform(Vec::from_iter(1..=sides))
+    }
+}
+
 fn main() {
     use self::distribution as dist;
     let answer = dist::always(42);
