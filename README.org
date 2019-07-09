@@ -1,0 +1,18 @@
+#+OPTIONS: num:nil toc:nil ^:nil
+#+TITLE: Chance of an event in a dice game
+
+* Overview
+
+  This is a learning projectfur rust.  The goal was to calculate the
+  chance of throwing a six and a five then throwing doubles.
+
+  There are easier ways to achieve this but I wanted to try a
+  moderately complex app in rust.
+
+  I coded this entirely on my phone after a week of learning rust.  So
+  I'm sure it is full of issues.  I want to leave it as is but any
+  form of critique is welcome via issues.
+
+* Building and running
+
+  Issueing =cargo run= will build and run the project.
