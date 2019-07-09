@@ -3,7 +3,7 @@
 
 * Overview
 
-  This is a learning projectfur rust.  The goal was to calculate the
+  This is a learning project for rust.  The goal was to calculate the
   chance of throwing a six and a five then throwing doubles.
 
   There are easier ways to achieve this but I wanted to try a
